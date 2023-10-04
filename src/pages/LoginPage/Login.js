@@ -15,7 +15,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
 import { Link, useNavigate } from "react-router-dom";
 
-import AuthService from "../services/auth.service"; // Import your authentication service here
+import AuthService from "../../services/auth.service"; // Import your authentication service here
 
 const Login = () => {
   // const [email, setEmail] = useState("");
@@ -34,6 +34,7 @@ const Login = () => {
 
       // Handle successful login, e.g., redirect to another page
       navigate("/");
+      window.location.reload();
     } catch (error) {
       console.error("Login failed:", error);
       // Handle login error, e.g., display an error message

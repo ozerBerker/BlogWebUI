@@ -15,7 +15,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
 import { Link, useNavigate } from "react-router-dom";
 
-import AuthService from "../services/auth.service"; // Import your authentication service here
+import AuthService from "../../services/auth.service"; // Import your authentication service here
 
 export default function Register() {
   //   const [email, setEmail] = useState("");
