@@ -48,8 +48,11 @@ function Content() {
 
   useEffect(() => {
     try {
-      const response = ArticleService.getArticles().then((response) => {
-        console.log(response);
+      ArticleService.getArticles().then((response) => {
+        // Filter articles where articleIsActive is true
+        response = response.filter(
+          (article) => article.articleIsActive === true
+        );
         setArticles(response);
       });
     } catch (error) {

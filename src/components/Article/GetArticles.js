@@ -20,6 +20,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
 import ArticleService from "../../services/article.service";
+import axios from "axios";
 import { Profile } from "../../pages";
 
 export default function GetArticles() {
@@ -36,7 +37,11 @@ function Content() {
 
   useEffect(() => {
     try {
-      const response = ArticleService.getArticles().then((response) => {
+      ArticleService.getArticles().then((response) => {
+        // Filter articles where articleIsActive is true
+        response = response.filter(
+          (article) => article.articleIsActive === true
+        );
         setArticles(response);
       });
     } catch (error) {
@@ -44,22 +49,13 @@ function Content() {
     }
   }, []); // Empty dependency array to run the effect only once when the component mounts
 
-  const handleDelete = (articleId) => {
+  const handleDeleteArticle = async (articleId) => {
     try {
-      // Call the ArticleService to delete the article
-      ArticleService.deleteArticle(articleId, 4)
-        .then((response) => {
-          console.log("Article deleted:", response);
-          // Reload the articles or perform other actions as needed
-          // For example, you can fetch the articles again to update the list
-          ArticleService.getArticles().then((newArticles) => {
-            setArticles(newArticles);
-          });
-        })
-        .catch((error) => {
-          console.error("Error deleting article:", error);
-          // Handle errors here, e.g., show an error message to the user
-        });
+      // Call the deleteArticle function and pass the articleId to delete
+      await ArticleService.deleteArticle(articleId);
+
+      // Remove the deleted article from the local state
+      window.location.reload();
     } catch (error) {
       console.error(error);
     }
@@ -93,7 +89,9 @@ function Content() {
                   {article.articleId}
                 </TableCell>
                 <TableCell align="right">{article.articleTitle}</TableCell>
-                <TableCell align="right">{article.articleIsActive}</TableCell>
+                <TableCell align="right">
+                  {article.articleIsActive ? "True" : "False"}
+                </TableCell>
                 <TableCell align="right">{article.categoryId}</TableCell>
                 <TableCell align="right">{article.userId}</TableCell>
                 <TableCell align="right">
@@ -107,7 +105,9 @@ function Content() {
                   <IconButton>
                     <EditIcon />
                   </IconButton>
-                  <IconButton onClick={handleDelete(article.articleId)}>
+                  <IconButton
+                    onClick={() => handleDeleteArticle(article.articleId)}
+                  >
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>

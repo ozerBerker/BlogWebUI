@@ -48,7 +48,7 @@ const updateArticle = async (articleId, articleData) => {
 
 const deleteArticle = async (articleId) => {
   return await axios
-    .delete(URL + "/Delete?=id" + articleId + "&userId=4")
+    .delete(URL + "/Delete?id=" + articleId + "&userId=4")
     .then((response) => {
       return response.data;
     })
